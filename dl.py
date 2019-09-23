@@ -32,8 +32,6 @@ for part in parts:
     part_dir = 'Part' + str(part['part'])
     if not os.path.exists(part_dir):
         os.mkdir(part_dir)
-    if part['part'] < 3:
-        continue
 
     # Change directory so that we can save the videos in the proper place
     os.chdir(part_dir)
