@@ -13,7 +13,7 @@ I created this script so that I could watch the videos when I was travelling and
 4. `cd cs7637_dl`
 5. `virtualenv venv`
 6. `source venv/bin/activate`
-7. `pip install -r requirements`
+7. `pip install -r requirements.txt`
 8. Copy your API key into the *API_KEY='Your-Key-Here'* section of `dl.py`
 9. `python dl.py`
 10. Enjoy!
