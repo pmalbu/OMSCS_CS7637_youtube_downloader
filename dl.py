@@ -7,8 +7,12 @@ License: MIT
 Usage: python dl.py
 
 The CS7637 class videos are split up into 5 parts with
-their playlist id's listed below. You must put in your own API
-key below.
+their playlist id's listed below. You must put in your own 
+API key in a .env file in the form
+YT_API_KEY=my_yt_api_key  (obtained from the GCP Console)
+https://console.developers.google.com/apis/dashboard
+
+See README.md for details on how to obtain an API key.
 
 Enjoy!
 """
@@ -17,27 +21,39 @@ import youtube_dl
 from youtube_api import YouTubeDataAPI
 import os
 
-API_KEY='Your-Key-Here'
-parts = [
-    { 'part': 1, 'playlist_id': 'PLAwxTw4SYaPkdANSntXhY0btWkpPglDGD'},
-    { 'part': 2, 'playlist_id': 'PLAwxTw4SYaPkbpTYapAPkmAG4CX6c4zbe'},
-    { 'part': 3, 'playlist_id': 'PLAwxTw4SYaPnfBiz7qzbPX27x4zBBNrY5'},
-    { 'part': 4, 'playlist_id': 'PLAwxTw4SYaPmYv73ffQ7TE3sZXA38EFkx'},
-    { 'part': 5, 'playlist_id': 'PLAwxTw4SYaPm4zEWxZ-rlepIlLUTCORcn'},
+from dotenv import load_dotenv
+load_dotenv()
+
+API_KEY=os.getenv('YT_API_KEY')
+playlists = [
+    { 'title': 'Part1', 'playlist_id': 'PLAwxTw4SYaPkdANSntXhY0btWkpPglDGD'},
+    { 'title': 'Part2', 'playlist_id': 'PLAwxTw4SYaPkbpTYapAPkmAG4CX6c4zbe'},
+    { 'title': 'Part3', 'playlist_id': 'PLAwxTw4SYaPnfBiz7qzbPX27x4zBBNrY5'},
+    { 'title': 'Patt4', 'playlist_id': 'PLAwxTw4SYaPmYv73ffQ7TE3sZXA38EFkx'},
+    { 'title': 'Part5', 'playlist_id': 'PLAwxTw4SYaPm4zEWxZ-rlepIlLUTCORcn'},
 ]
 yt = YouTubeDataAPI(API_KEY)
 
+# First, create a "downloads" folder if it does not exist
 root_dir = os.getcwd()
-for part in parts:
-    part_dir = 'Part' + str(part['part'])
-    if not os.path.exists(part_dir):
-        os.mkdir(part_dir)
+downloads_dir = os.path.join(root_dir, 'downloads')
+if not os.path.exists(downloads_dir):
+    os.mkdir(downloads_dir)
+os.chdir(downloads_dir)
+
+# For each playlist in the array,
+# create a directory inside downloads and
+# download each video into that directory
+for playlist in playlists:
+    playlist_dir = playlist['title']
+    if not os.path.exists(playlist_dir):
+        os.mkdir(playlist_dir)
 
     # Change directory so that we can save the videos in the proper place
-    os.chdir(part_dir)
+    os.chdir(playlist_dir)
 
-    # Download all episodes for this part
-    playlist = yt.get_videos_from_playlist_id(part['playlist_id'])
+    # Download all episodes for this playlist
+    playlist = yt.get_videos_from_playlist_id(playlist['playlist_id'])
     for videoix, v in enumerate(playlist):
         try:
             video = yt.get_video_metadata(v['video_id'])

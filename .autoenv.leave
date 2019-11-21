@@ -1,0 +1,4 @@
+case $PWD/ in
+    */youtube_downloader/*);;
+    *) deactivate;;
+esac

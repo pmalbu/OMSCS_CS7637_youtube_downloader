@@ -1,3 +1,5 @@
 Part*
 venv
 .DS_store
+.env
+downloads
