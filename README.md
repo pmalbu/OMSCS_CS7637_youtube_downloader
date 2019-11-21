@@ -14,6 +14,6 @@ I created this script so that I could watch the videos when I was travelling and
 5. `virtualenv venv`
 6. `source venv/bin/activate`
 7. `pip install -r requirements.txt`
-8. Copy your API key into the *API_KEY='Your-Key-Here'* section of `dl.py`
+8. Copy your API key into a `.env` file in the form *YT_API_KEY='Your-Key-Here'*
 9. `python dl.py`
 10. Enjoy!
